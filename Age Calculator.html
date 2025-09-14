@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: #4a6fc3;
+            color: white;
+            text-align: center;
+            padding: 25px 20px;
+        }
+        
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.5), transparent);
+            margin: 10px 0;
+        }
+        
+        .calculator-form {
+            padding: 25px;
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+        }
+        
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-size: 18px;
+        }
+        
+        .date-input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .date-input:focus {
+            border-color: #4a6fc3;
+            outline: none;
+        }
+        
+        .calculate-btn {
+            background: #4a6fc3;
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .calculate-btn:hover {
+            background: #3a5bb0;
+        }
+        
+        .results {
+            padding: 0 25px 25px;
+        }
+        
+        .result-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .result-box {
+            background: #f8f9fa;
+            border-left: 5px solid #4a6fc3;
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 20px;
+        }
+        
+        .detailed-age {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #2c3e50;
+        }
+        
+        .total-breakdown {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #ccc;
+        }
+        
+        .total-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+        }
+        
+        .total-value {
+            font-weight: 600;
+            color: #4a6fc3;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                border-radius: 10px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .input-group label {
+                font-size: 16px;
+            }
+            
+            .date-input {
+                padding: 12px;
+            }
+            
+            .calculate-btn {
+                padding: 12px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Age Calculator</h1>
+            <p>Calculate your exact age quickly and easily</p>
+        </header>
+        
+        <div class="calculator-form">
+            <div class="input-group">
+                <label for="dob">Enter Your Date of Birth:</label>
+                <input type="date" id="dob" class="date-input" value="2006-01-01">
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="input-group">
+                <label for="asof">Calculate Age As of (Optional):</label>
+                <input type="date" id="asof" class="date-input">
+            </div>
+            
+            <button class="calculate-btn" onclick="calculateAge()">Calculate Age</button>
+        </div>
+        
+        <div class="results" id="results" style="display: none;">
+            <h3 class="result-title" id="resultTitle">Your Age as of 9/14/2025:</h3>
+            
+            <div class="result-box">
+                <div class="detailed-age" id="detailedAge">
+                    Detailed Age: 19 years, 8 months, 12 days, 0 hours, 0 minutes, and 0 seconds.
+                </div>
+                
+                <div class="total-breakdown">
+                    <div class="total-item">
+                        <span>Total Months:</span>
+                        <span class="total-value" id="totalMonths">236</span>
+                    </div>
+                    <div class="total-item">
+                        <span>Total Days:</span>
+                        <span class="total-value" id="totalDays">7196</span>
+                    </div>
+                    <div class="total-item">
+                        <span>Total Hours:</span>
+                        <span class="total-value" id="totalHours">172704</span>
+                    </div>
+                    <div class="total-item">
+                        <span>Total Minutes:</span>
+                        <span class="total-value" id="totalMinutes">10362240</span>
+                    </div>
+                    <div class="total-item">
+                        <span>Total Seconds:</span>
+                        <span class="total-value" id="totalSeconds">621734400</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Set default "as of" date to today
+        document.getElementById('asof').valueAsDate = new Date();
+        
+        function calculateAge() {
+            const dobInput = document.getElementById('dob').value;
+            const asofInput = document.getElementById('asof').value || new Date().toISOString().split('T')[0];
+            
+            if (!dobInput) {
+                alert('Please enter your date of birth');
+                return;
+            }
+            
+            const dob = new Date(dobInput);
+            const asof = new Date(asofInput);
+            
+            if (dob > asof) {
+                alert('Date of birth cannot be in the future of the selected date');
+                return;
+            }
+            
+            // Format date for display
+            const asofFormatted = formatDate(asof);
+            
+            // Calculate age
+            const ageDetails = calculateAgeDetails(dob, asof);
+            
+            // Update UI with results
+            document.getElementById('resultTitle').textContent = `Your Age as of ${asofFormatted}:`;
+            document.getElementById('detailedAge').textContent = `Detailed Age: ${ageDetails.years} years, ${ageDetails.months} months, ${ageDetails.days} days, 0 hours, 0 minutes, and 0 seconds.`;
+            document.getElementById('totalMonths').textContent = ageDetails.totalMonths;
+            document.getElementById('totalDays').textContent = ageDetails.totalDays;
+            document.getElementById('totalHours').textContent = ageDetails.totalHours;
+            document.getElementById('totalMinutes').textContent = ageDetails.totalMinutes;
+            document.getElementById('totalSeconds').textContent = ageDetails.totalSeconds;
+            
+            // Show results
+            document.getElementById('results').style.display = 'block';
+        }
+        
+        function calculateAgeDetails(dob, asof) {
+            // Calculate years
+            let years = asof.getFullYear() - dob.getFullYear();
+            
+            // Calculate months
+            let months = asof.getMonth() - dob.getMonth();
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+            
+            // Calculate days
+            let days = asof.getDate() - dob.getDate();
+            if (days < 0) {
+                months--;
+                // Get the number of days in the previous month
+                const prevMonth = new Date(asof.getFullYear(), asof.getMonth(), 0);
+                days += prevMonth.getDate();
+                if (months < 0) {
+                    years--;
+                    months += 12;
+                }
+            }
+            
+            // Calculate totals
+            const totalDays = Math.floor((asof - dob) / (1000 * 60 * 60 * 24));
+            const totalMonths = years * 12 + months;
+            const totalHours = totalDays * 24;
+            const totalMinutes = totalHours * 60;
+            const totalSeconds = totalMinutes * 60;
+            
+            return {
+                years,
+                months,
+                days,
+                totalMonths,
+                totalDays,
+                totalHours,
+                totalMinutes,
+                totalSeconds
+            };
+        }
+        
+        function formatDate(date) {
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            const year = date.getFullYear();
+            
+            return `${month}/${day}/${year}`;
+        }
+    </script>
+</body>
+</html>
